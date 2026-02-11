@@ -169,11 +169,7 @@ function showSettings() {
 }
 
 function backFromSettings() {
-    if (previousView === 'chat') {
-        showChat();
-    } else {
-        showCalculator();
-    }
+    showChat();
 }
 
 function unlockChat() {
