@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="تطبيق حاسبة مع ميزات متقدمة">
+    <title>حاسبة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🧮</text></svg>">
+</head>
+<body>
+    <!-- PWA Install Button -->
+    <div id="installContainer" class="install-container" style="display: none;">
+        <button id="installButton" class="install-btn">
+            📱 تثبيت التطبيق
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Calculator View -->
+        <div id="calculatorView" class="view active">
+            <div class="calculator-header">
+                <h1>🧮 حاسبة</h1>
+            </div>
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button class="btn operator" onclick="clearDisplay()">C</button>
+                <button class="btn operator" onclick="deleteLast()">⌫</button>
+                <button class="btn operator" onclick="appendOperator('%')">%</button>
+                <button class="btn operator" onclick="appendOperator('/')">÷</button>
+                
+                <button class="btn" onclick="appendNumber('7')">7</button>
+                <button class="btn" onclick="appendNumber('8')">8</button>
+                <button class="btn" onclick="appendNumber('9')">9</button>
+                <button class="btn operator" onclick="appendOperator('*')">×</button>
+                
+                <button class="btn" onclick="appendNumber('4')">4</button>
+                <button class="btn" onclick="appendNumber('5')">5</button>
+                <button class="btn" onclick="appendNumber('6')">6</button>
+                <button class="btn operator" onclick="appendOperator('-')">-</button>
+                
+                <button class="btn" onclick="appendNumber('1')">1</button>
+                <button class="btn" onclick="appendNumber('2')">2</button>
+                <button class="btn" onclick="appendNumber('3')">3</button>
+                <button class="btn operator" onclick="appendOperator('+')">+</button>
+                
+                <button class="btn" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+                <button class="btn" onclick="appendNumber('.')">.</button>
+                <button class="btn equals" onclick="calculate()">=</button>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="showSettings()">⚙️ الإعدادات</button>
+            </div>
+        </div>
+
+        <!-- Chat View -->
+        <div id="chatView" class="view">
+            <div class="chat-header">
+                <button class="back-btn" onclick="showCalculator()">← رجوع</button>
+                <h2>💬 المحادثة</h2>
+                <button class="settings-btn" onclick="showSettings()">⚙️</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    مرحباً! لقد فتحت المحادثة السرية 🎉
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <button class="icon-btn" id="imageBtn" title="رفع صورة">
+                    📷
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                </button>
+                <button class="icon-btn" id="micBtn" title="تسجيل صوتي">🎤</button>
+                <input type="text" id="messageInput" placeholder="اكتب رسالة..." class="message-input">
+                <button class="send-btn" id="sendBtn">إرسال</button>
+            </div>
+        </div>
+
+        <!-- Settings View -->
+        <div id="settingsView" class="view">
+            <div class="settings-header">
+                <button class="back-btn" onclick="backFromSettings()">← رجوع</button>
+                <h2>⚙️ الإعدادات</h2>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>🔐 تغيير كلمة المرور</label>
+                    <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة">
+                    <button class="setting-btn" onclick="changePassword()">تحديث</button>
+                </div>
+                
+                <div class="setting-item">
+                    <label>⏰ وقت حذف الرسائل (بالدقائق)</label>
+                    <input type="number" id="deleteTime" value="60" min="1">
+                    <button class="setting-btn" onclick="saveDeleteTime()">حفظ</button>
+                </div>
+                
+                <div class="setting-item">
+                    <label>🔔 الإشعارات</label>
+                    <select id="notifications" class="setting-select">
+                        <option value="all">جميع الإشعارات</option>
+                        <option value="mentions">الإشارات فقط</option>
+                        <option value="none">بدون إشعارات</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label>🎨 المظهر</label>
+                    <select id="theme" class="setting-select" onchange="changeTheme()">
+                        <option value="light">فاتح</option>
+                        <option value="dark">داكن</option>
+                        <option value="auto">تلقائي</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label>🔊 الأصوات</label>
+                    <select id="sounds" class="setting-select">
+                        <option value="on">مفعل</option>
+                        <option value="off">معطل</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label>🌐 اللغة</label>
+                    <select id="language" class="setting-select">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label>💾 النسخ الاحتياطي التلقائي</label>
+                    <select id="autoBackup" class="setting-select">
+                        <option value="daily">يومي</option>
+                        <option value="weekly">أسبوعي</option>
+                        <option value="monthly">شهري</option>
+                        <option value="off">معطل</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <button class="setting-btn danger" onclick="clearAllMessages()">🗑️ حذف جميع الرسائل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
