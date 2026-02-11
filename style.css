@@ -1,517 +1,224 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* إعدادات عامة وألوان السِمات (Themes) */
+:root {
+    --bg-color: #1e1e1e;
+    --container-bg: #2d2d2d;
+    --text-color: #ffffff;
+    --primary-color: #007bff;
+    --button-bg: #444;
+    --button-hover: #555;
 }
 
+.theme-blue {
+    --bg-color: #e3f2fd;
+    --container-bg: #ffffff;
+    --text-color: #000000;
+    --primary-color: #1976d2;
+    --button-bg: #bbdefb;
+    --button-hover: #90caf9;
+}
+
+.theme-red {
+    --bg-color: #ffebee;
+    --container-bg: #ffffff;
+    --text-color: #000000;
+    --primary-color: #d32f2f;
+    --button-bg: #ffcdd2;
+    --button-hover: #ef9a9a;
+}
+
+/* تنسيق جسم الصفحة */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s;
 }
 
-body.dark-theme {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.install-container {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        transform: translate(-50%, -100%);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-}
-
-.install-btn {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-}
-
-.install-btn:hover {
-    background: #45a049;
-    transform: scale(1.05);
-}
-
-.container {
-    width: 100%;
-    max-width: 400px;
-    background: white;
+/* الحاوية الرئيسية (للحاسبة أو الدردشة) */
+.app-container {
+    background-color: var(--container-bg);
+    width: 350px;
+    height: 600px;
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    position: relative;
 }
 
-.dark-theme .container {
-    background: #2d2d44;
-    color: white;
+/* إخفاء العناصر */
+.hidden {
+    display: none !important;
 }
 
-.view {
-    display: none;
-    animation: fadeIn 0.3s ease-in;
-}
-
-.view.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* Calculator Styles */
-.calculator-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
-    text-align: center;
-    color: white;
-}
-
-.dark-theme .calculator-header {
-    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
-}
-
-.calculator-header h1 {
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.display {
-    background: #f5f5f5;
-    padding: 30px 20px;
-    font-size: 36px;
+/* ============ تصميم الحاسبة ============ */
+#calc-display {
+    width: 100%;
+    height: 100px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 3rem;
     text-align: left;
-    min-height: 80px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    padding: 20px;
+    box-sizing: border-box;
     direction: ltr;
 }
 
-.dark-theme .display {
-    background: #1a1a2e;
-    color: white;
-}
-
-.buttons {
+.calc-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: #ddd;
-    padding: 1px;
-}
-
-.dark-theme .buttons {
-    background: #16213e;
-}
-
-.btn {
-    background: white;
-    border: none;
-    padding: 25px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.dark-theme .btn {
-    background: #2d2d44;
-    color: white;
-}
-
-.btn:hover {
-    background: #f0f0f0;
-}
-
-.dark-theme .btn:hover {
-    background: #3d3d54;
-}
-
-.btn:active {
-    transform: scale(0.95);
-}
-
-.btn.operator {
-    background: #e8e8e8;
-    color: #667eea;
-    font-weight: bold;
-}
-
-.dark-theme .btn.operator {
-    background: #3d3d54;
-    color: #667eea;
-}
-
-.btn.equals {
-    background: #667eea;
-    color: white;
-    font-weight: bold;
-}
-
-.btn.equals:hover {
-    background: #5568d3;
-}
-
-.nav-buttons {
-    padding: 15px;
-    display: flex;
-    justify-content: center;
     gap: 10px;
+    padding: 20px;
+    flex: 1;
 }
 
-.nav-btn {
-    flex: 1;
-    padding: 12px;
-    background: #667eea;
-    color: white;
+.calc-buttons button {
+    background-color: var(--button-bg);
+    color: var(--text-color);
     border: none;
     border-radius: 10px;
+    font-size: 1.5rem;
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
+    transition: background-color 0.2s;
 }
 
-.nav-btn:hover {
-    background: #5568d3;
-    transform: translateY(-2px);
+.calc-buttons button:hover {
+    background-color: var(--button-hover);
 }
 
-/* Chat Styles */
+.calc-buttons .operator {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.calc-buttons .clear {
+    background-color: #ff4757;
+    color: #fff;
+}
+
+/* ============ تصميم الدردشة ============ */
 .chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
-}
-
-.dark-theme .chat-header {
-    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
-}
-
-.chat-header h2 {
-    font-size: 20px;
-}
-
-.back-btn, .settings-btn {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.back-btn:hover, .settings-btn:hover {
-    background: rgba(255,255,255,0.3);
+    font-size: 1.2rem;
 }
 
 .chat-messages {
-    height: 450px;
+    flex: 1;
+    padding: 15px;
     overflow-y: auto;
-    padding: 20px;
-    background: #f5f5f5;
-}
-
-.dark-theme .chat-messages {
-    background: #1a1a2e;
-}
-
-.welcome-message {
-    text-align: center;
-    padding: 20px;
-    background: white;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.dark-theme .welcome-message {
-    background: #2d2d44;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .message {
-    margin-bottom: 15px;
-    padding: 12px 15px;
+    padding: 10px 15px;
     border-radius: 15px;
     max-width: 80%;
     word-wrap: break-word;
-    animation: messageSlide 0.3s ease-out;
-}
-
-@keyframes messageSlide {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.message.sent {
-    background: #667eea;
-    color: white;
-    margin-right: auto;
-    border-bottom-right-radius: 5px;
 }
 
 .message.received {
-    background: white;
-    color: #333;
-    margin-left: auto;
-    border-bottom-left-radius: 5px;
+    background-color: var(--button-bg);
+    align-self: flex-start;
 }
 
-.dark-theme .message.received {
-    background: #2d2d44;
-    color: white;
+.message.sent {
+    background-color: var(--primary-color);
+    color: #fff;
+    align-self: flex-end;
 }
 
-.message-time {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-top: 5px;
-}
-
-.message-image {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-top: 5px;
-}
-
-.chat-input-container {
+.chat-input-area {
     padding: 15px;
-    background: white;
     display: flex;
     gap: 10px;
     align-items: center;
+    background-color: var(--container-bg);
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
-.dark-theme .chat-input-container {
-    background: #2d2d44;
-}
-
-.icon-btn {
-    background: #f0f0f0;
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-}
-
-.dark-theme .icon-btn {
-    background: #3d3d54;
-}
-
-.icon-btn:hover {
-    background: #e0e0e0;
-    transform: scale(1.1);
-}
-
-.dark-theme .icon-btn:hover {
-    background: #4d4d64;
-}
-
-.icon-btn.recording {
-    background: #f44336;
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-.message-input {
+#message-input {
     flex: 1;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    font-size: 16px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--button-bg);
+    background-color: transparent;
+    color: var(--text-color);
     outline: none;
 }
 
-.dark-theme .message-input {
-    background: #3d3d54;
-    border-color: #4d4d64;
-    color: white;
-}
-
-.message-input:focus {
-    border-color: #667eea;
+.icon-btn, .send-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
 .send-btn {
-    background: #667eea;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s;
+    background-color: var(--primary-color);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-.send-btn:hover {
-    background: #5568d3;
-    transform: scale(1.05);
-}
-
-/* Settings Styles */
-.settings-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 15px 20px;
+/* ============ تصميم الإعدادات ============ */
+.settings-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 15px;
-    color: white;
-}
-
-.dark-theme .settings-header {
-    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
-}
-
-.settings-header h2 {
-    font-size: 20px;
+    z-index: 10;
 }
 
 .settings-content {
+    background-color: var(--container-bg);
     padding: 20px;
-    max-height: 550px;
-    overflow-y: auto;
+    border-radius: 15px;
+    width: 80%;
 }
 
 .setting-item {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f5f5f5;
-    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.dark-theme .setting-item {
-    background: #1a1a2e;
+.setting-item input[type="text"], .setting-item select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--button-bg);
+    background-color: transparent;
+    color: var(--text-color);
 }
 
-.setting-item label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.setting-item input[type="password"],
-.setting-item input[type="number"],
-.setting-select {
+.close-btn {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.dark-theme .setting-item input,
-.dark-theme .setting-select {
-    background: #2d2d44;
-    border-color: #3d3d54;
-    color: white;
-}
-
-.setting-btn {
-    padding: 10px 20px;
-    background: #667eea;
-    color: white;
+    background-color: #ff4757;
+    color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
-}
-
-.setting-btn:hover {
-    background: #5568d3;
-}
-
-.setting-btn.danger {
-    background: #f44336;
-    width: 100%;
-}
-
-.setting-btn.danger:hover {
-    background: #d32f2f;
-}
-
-/* Scrollbar Styles */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.dark-theme ::-webkit-scrollbar-track {
-    background: #2d2d44;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-    .container {
-        border-radius: 0;
-        max-width: 100%;
-        height: 100vh;
-    }
-    
-    .chat-messages {
-        height: calc(100vh - 200px);
-    }
-    
-    .settings-content {
-        max-height: calc(100vh - 100px);
-    }
+    margin-top: 10px;
 }
