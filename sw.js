@@ -1,3 +1,4 @@
+// Cache version - increment this (e.g., 'v2', 'v3') when deploying updates to force cache refresh
 const CACHE_NAME = 'calculator-app-v1';
 const urlsToCache = [
   '/',

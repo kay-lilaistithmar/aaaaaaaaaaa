@@ -112,7 +112,7 @@ function calculate() {
     
     // Check for secret code: 5+5=10
     calculationHistory += '=';
-    if (calculationHistory === '5+5=' || (previousValue === 5 && currentOperator === '+' && currentValue === 5)) {
+    if (calculationHistory === '5+5=') {
         unlockChat();
     }
     
@@ -304,20 +304,24 @@ async function toggleRecording() {
             
             mediaRecorder.addEventListener('stop', () => {
                 const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                const audioUrl = URL.createObjectURL(audioBlob);
                 
-                const message = {
-                    id: Date.now(),
-                    text: 'رسالة صوتية',
-                    audio: audioUrl,
-                    type: 'sent',
-                    timestamp: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })
+                // Convert blob to base64 for persistent storage
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const message = {
+                        id: Date.now(),
+                        text: 'رسالة صوتية',
+                        audio: reader.result,
+                        type: 'sent',
+                        timestamp: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })
+                    };
+                    messages.push(message);
+                    saveMessages();
+                    renderMessages();
+                    playSound();
+                    scheduleMessageDeletion(message.id);
                 };
-                messages.push(message);
-                saveMessages();
-                renderMessages();
-                playSound();
-                scheduleMessageDeletion(message.id);
+                reader.readAsDataURL(audioBlob);
                 
                 stream.getTracks().forEach(track => track.stop());
             });
