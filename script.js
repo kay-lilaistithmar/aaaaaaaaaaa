@@ -82,6 +82,8 @@ function appendOperator(op) {
     currentOperator = op;
     shouldResetDisplay = true;
     calculationHistory += op;
+    currentDisplay = '----';
+    updateDisplay();
 }
 
 function calculate() {
