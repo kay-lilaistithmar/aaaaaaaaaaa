@@ -1,27 +1,21 @@
 {
-  "name": "حاسبة - تطبيق الحاسبة المتقدم",
+  "name": "تطبيق الحاسبة",
   "short_name": "حاسبة",
-  "description": "تطبيق حاسبة مع ميزات محادثة متقدمة",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
-  "orientation": "portrait",
+  "description": "حاسبة بسيطة وسريعة لإجراء العمليات الحسابية",
+  "start_url": "./index.html",
+  "display": "standalone", 
+  "background_color": "#1e1e1e",
+  "theme_color": "#007bff",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' rx='40' fill='%23667eea'/><text x='100' y='140' font-size='120' text-anchor='middle' fill='white'>🧮</text></svg>",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23667eea'/><text x='256' y='360' font-size='300' text-anchor='middle' fill='white'>🧮</text></svg>",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "categories": ["utilities", "productivity"],
-  "lang": "ar",
-  "dir": "rtl"
+  ]
 }
