@@ -103,3 +103,16 @@ function changeTheme() {
     // إضافة السِمة الجديدة التي اختارها المستخدم
     document.body.classList.add(theme);
 }
+// ================= تسجيل عامل الخدمة (PWA) =================
+// نتحقق أولاً مما إذا كان المتصفح يدعم هذه الميزة
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then((registration) => {
+                console.log('تم تشغيل Service Worker بنجاح:', registration.scope);
+            })
+            .catch((error) => {
+                console.log('فشل تشغيل Service Worker:', error);
+            });
+    });
+}
