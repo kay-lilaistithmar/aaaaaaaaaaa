@@ -1,5 +1,6 @@
 // اسم الذاكرة (النسخة المخبأة)
-const CACHE_NAME = 'secret-calc-v1';
+// قمنا بتغيير الرقم من v1 إلى v2 لإجبار المتصفح على التحديث
+const CACHE_NAME = 'secret-calc-v2';
 
 // قائمة بالملفات التي نريد حفظها لتعمل بدون إنترنت
 const FILES_TO_CACHE = [
@@ -26,6 +27,7 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((keyList) => {
             return Promise.all(keyList.map((key) => {
                 if (key !== CACHE_NAME) {
+                    // هنا يتم حذف النسخة القديمة (v1) لأن الاسم اختلف
                     return caches.delete(key);
                 }
             }));
